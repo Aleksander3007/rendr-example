@@ -2,6 +2,8 @@ var express = require('express')
   , rendr = require('rendr')
   , serveStatic = require('serve-static')
   , app = express()
+  , api = require('./api-server/apiServer')
+  , bodyParser = require('body-parser')
   ;
 /**
  * In this simple example, the DataAdapter config, which specifies host, port, etc. of the API
@@ -28,6 +30,7 @@ var server = rendr.createServer({
  */
 server.configure(function (expressApp) {
 	expressApp.use(serveStatic(__dirname + '/public'));
+	app.use(bodyParser.json()); 
 });
 
 
@@ -55,6 +58,8 @@ function start(){
 		port,
 		app.get('env')
 	);
+	
+	api.init(app);
 }
 
 
